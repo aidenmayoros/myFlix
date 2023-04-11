@@ -1,0 +1,29 @@
+{
+	"name": "movie_api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/aidenmayoros/myFlix.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/aidenmayoros/myFlix/issues"
+	},
+	"homepage": "https://github.com/aidenmayoros/myFlix#readme",
+	"dependencies": {
+		"body-parser": "^1.20.2",
+		"express": "^4.18.2",
+		"lodash": "^4.17.21"
+	},
+	"devDependencies": {
+		"eslint": "^8.38.0"
+	}
+}
