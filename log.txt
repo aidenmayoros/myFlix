@@ -1,18 +1,5 @@
-URL: /
-Timestamp: Tue Apr 11 2023 09:46:09 GMT-0700 (Mountain Standard Time)
-
-URL: /favicon.ico
-Timestamp: Tue Apr 11 2023 09:46:10 GMT-0700 (Mountain Standard Time)
-
-URL: /documentation
-Timestamp: Tue Apr 11 2023 09:46:15 GMT-0700 (Mountain Standard Time)
-
-URL: /favicon.ico
-Timestamp: Tue Apr 11 2023 09:46:15 GMT-0700 (Mountain Standard Time)
-
-URL: /testingthisnow
-Timestamp: Tue Apr 11 2023 09:46:28 GMT-0700 (Mountain Standard Time)
-
-URL: /favicon.ico
-Timestamp: Tue Apr 11 2023 09:46:28 GMT-0700 (Mountain Standard Time)
-
+::1 - - [11/Apr/2023:23:56:24 +0000] "GET /documentation.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [11/Apr/2023:23:56:26 +0000] "GET /documentation.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [11/Apr/2023:23:56:30 +0000] "GET /documentation.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [11/Apr/2023:23:56:32 +0000] "GET /documentation.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [11/Apr/2023:23:56:37 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
