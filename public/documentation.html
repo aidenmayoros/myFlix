@@ -5,6 +5,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Code block styling CSS -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/material-darker.min.css">
+  <!-- Other CSS files -->
   <link rel="stylesheet" href="./documentation.css">
   <title>myFlix API Documentation</title>
 </head>
@@ -12,175 +19,149 @@
 <body>
   <h1>myFlix API Documentation:</h1>
   <hr>
-  <h2>Quick Links</h2>
-  <div>
-    <h3>Movie Data:</h3>
-    <div>
-      <ul>
-        <li><a href="#">Get a list of all movies</a></li>
-        <li><a href="#">Get movie data by title/name</a></li>
-        <li><a href="#">Get movie data by genre</a></li>
-        <li><a href="#">Get data about a Director by name</a></li>
-      </ul>
-    </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Use</th>
+          <th scope="col">URL</th>
+          <th scope="col">Parameters</th>
+          <th scope="col">Request URL example</th>
+          <th scope="col">HTTP Method</th>
+          <th scope="col">Request body format</th>
+          <th scope="col">Response data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Get a list of all movies</th>
+          <td>/movies</td>
+          <td><span class="bordered_box">N/A</span></td>
+          <td class="wide_td">http://exampleurl/movies</td>
+          <td>GET</td>
+          <td>N/A</td>
+          <td class="wide_td">A JSON object showing data of all movies. <br><span class="bordered_box">Example:</span>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Grab a movie by its name or title</th>
+          <td>/movies/<code>{title}</code></td>
+          <td><span class="bordered_box">title</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">http://exampleurl/movies/<code>{title}</code></td>
+          <td>GET</td>
+          <td>N/A</td>
+          <td>JSON object showing data about a single movie.<br><span class="bordered_box">Example:</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Get a list of all movies based off a genre</th>
+          <td>/movies/genre/<code>{genre}</code></td>
+          <td><span class="bordered_box">genre</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">http://exampleurl/movies/genre/<code>{genre}</code></td>
+          <td>GET</td>
+          <td>N/A</td>
+          <td class="wide_td">JSON object showing data about all found movies that share a genre type.<br><span
+              class="bordered_box">Example:</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Get data about a director by name</th>
+          <td>/movies//directors/<code>{directorName}</code></td>
+          <td><span class="bordered_box">directorName</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">http://exampleurl/movies/directors/<code>{directorName}</code></td>
+          <td>GET</td>
+          <td>N/A</td>
+          <td class="wide_td">JSON object showing details of the found director.<br><span
+              class="bordered_box">Example:</span>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Add a new user profile</th>
+          <td>/movies/users</td>
+          <td><span class="bordered_box">N/A</span></td>
+          <td class="wide_td">http://exampleurl/movies/users</td>
+          <td>POST</td>
+          <td class="wide_td">JSON<br>
+            <span class="bordered_box">Example:</span><br>
+            <pre>
+              <code>{
+  "userName": "exampleUsername",
+  "email": "example@gmail.com",
+  "password": "password"
+}             </code>
+            </pre>
+          </td>
+          <td class="wide_td">JSON object showing newly created user.<br><span class="bordered_box">Example:</span>
+            <pre>
+            <code>{
+  "userName": "AidenM",
+  "email": "aiden@gmail.com",
+  "password": "password",
+  "id": "dec2dadf-07e7-4aeb-9056-690cc2f6196b"
+}           </code>
+          </pre>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Update a user's username</th>
+          <td>/movies/users/<code>{id}</code>&username=<code>{username}</code></td>
+          <td><span class="bordered_box">id, username</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">http://exampleurl/movies/users<code>{id28578234}</code>&username=<code>{username}</code>
+          </td>
+          <td>PUT</td>
+          <td>N/A</td>
+          <td class="wide_td">JSON obejct showing user and updated username.<br><span
+              class="bordered_box">Example:</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Add a movie to users favorite list</th>
+          <td>/movies/users/<code>{id}</code>/favorites/add/<code>{movieTitle}</code></td>
+          <td><span class="bordered_box">id, movieTitle</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">
+            http://exampleurl/movies/users/<code>{id}</code>/favorites/add&movie=<code>{movieTitle}</code>
+          </td>
+          <td>PUT</td>
+          <td>N/A</td>
+          <td class="wide_td">JSON object showing added movie to favorite list.<br><span
+              class="bordered_box">Example:</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Delete a movie from user's favorite list</th>
+          <td>/movies/users/<code>{id}</code>/favorites&movie=<code>{movieTitle}</code></td>
+          <td><span class="bordered_box">id, movieTitle</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">
+            http://exampleurl/movies/users/<code>{id}</code>/favorites/remove&movie=<code>{movieTitle}</code></td>
+          <td>DEL</td>
+          <td>N/A</td>
+          <td class="wide_td">JSON object showing movie that was deleted from users favorites.<br><span
+              class="bordered_box">Example:</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Delete a user's account</th>
+          <td>/movies/users/delete&user=<code>{id}</code></td>
+          <td><span class="bordered_box">id</span> <span class="parameter_required">required</span></td>
+          <td class="wide_td">http://exampleurl/movies/users/delete&user=<code>{id}</code></td>
+          <td>DEL</td>
+          <td>N/A</td>
+          <td class="wide_td">JSON object showing the user that was deleted.<br><span
+              class="bordered_box">Example:</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div>
-    <h3>User Data:</h3>
-    <div>
-      <ul>
-        <li><a href="#">Regiser a new user</a></li>
-        <li><a href="#">Update user username</a></li>
-        <li><a href="#">Add movie to users favorite list</a></li>
-        <li><a href="#">Remove movie from users favorite list</a></li>
-        <li><a href="#">Unregister a user</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <h2>Get all movies:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Get movie data by title/name:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Get movie data by genre:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Get data about a director by name:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Register a new user:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Update user username:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Add movie to users favorite list:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Remove movie from users favorite list:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
-  <h2>Unregister a user:</h2>
-  <table>
-    <tr>
-      <th>Use</th>
-      <th>URL</th>
-      <th>Method</th>
-      <th>Parameters</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-
+  <!-- Bootstrap scripts -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <!-- Code block script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
 
 </html>

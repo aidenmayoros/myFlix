@@ -63,25 +63,25 @@ app.post('/movies/users', (req, res) => {
 	}
 });
 
-app.put('/movies/users/:id/:username', (req, res) => {
+app.put('/movies/users/:id&username=:username', (req, res) => {
 	// Add logic to find user in database and then if exists to update their username
 	// Add error handling logic
 	res.status(201).send('Successful PUT request updating a users username');
 });
 
-app.put('/movies/users/:id/favorites/:movieName', (req, res) => {
+app.put('/movies/users/:id/favorites/add&movie=:movieName', (req, res) => {
 	// Add logic to add a movie to database of users favoites
 	// Add error handling logic
 	res.status(201).send('Successful PUT request adding a movie to favorite list');
 });
 
-app.delete('/movies/users/:id/favorites/:movieName', (req, res) => {
+app.delete('/movies/users/:id/favorites/remove&movie=:movieName', (req, res) => {
 	// Add logic to remove a movie from users favorite list
 	// Add error handling logic
 	res.status(202).send('Successful DELETE request removing movie from favorite list');
 });
 
-app.delete('/movies/users/:id', (req, res) => {
+app.delete('/movies/users/delete&user=:id', (req, res) => {
 	// Add error handling logic
 	res.status(202).send('Successful DELETE request deleting the user account');
 });
