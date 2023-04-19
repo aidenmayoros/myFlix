@@ -109,12 +109,16 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 	Users.findOneAndUpdate(
 		{ Username: req.params.Username },
 		{
-			$push: { FavoriteMovies: req.params.MovieID },
+			$addToSet: { FavoriteMovies: req.params.MovieID },
 		},
-		{ new: true } // This line makes sure that the updated document is returned
+		{ new: true }
 	)
 		.then((updatedUser) => {
-			res.json(updatedUser);
+			if (!updatedUser) {
+				return res.status(400).send('Error: User was not found');
+			} else {
+				res.json(updatedUser);
+			}
 		})
 		.catch((error) => {
 			console.error(error);
@@ -149,16 +153,42 @@ app.put('/users/:Username', (req, res) => {
 		});
 });
 
-app.delete('/users/:id/favorites/remove&movie=:movieName', (req, res) => {
-	// Allow users to remove a movie from their list of favorites
-	// Add logic to remove a movie from users favorite list
-	// Add error handling logic
-	res.status(202).send('Successful DELETE request removing movie from favorite list');
+// Remove a movie to a user's list of favorites
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+	Users.findOneAndUpdate(
+		{ Username: req.params.Username },
+		{
+			$pull: { FavoriteMovies: req.params.MovieID },
+		},
+		{ new: true }
+	)
+		.then((updatedUser) => {
+			if (!updatedUser) {
+				return res.status(400).send('Error: User not found');
+			} else {
+				res.json(updatedUser);
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+			res.status(500).send('Error: ' + error);
+		});
 });
 
-app.delete('/users/delete&user=:id', (req, res) => {
-	// Add error handling logic
-	res.status(202).send('Successful DELETE request deleting the user account');
+// Delete a user by username
+app.delete('/users/:name', (req, res) => {
+	Users.findOneAndRemove({ Username: req.params.Username })
+		.then((user) => {
+			if (!user) {
+				res.status(400).send('User ' + req.params.Username + ' was not found');
+			} else {
+				res.status(200).send(req.params.Username + ' was deleted.');
+			}
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error: ' + err);
+		});
 });
 
 app.use((err, req, res, next) => {
