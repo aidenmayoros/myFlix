@@ -135,3 +135,5 @@
 ::1 - - [19/Apr/2023:22:11:05 +0000] "GET /movies/genre/Acti HTTP/1.1" 404 47 "-" "PostmanRuntime/7.32.2"
 ::1 - - [19/Apr/2023:22:13:07 +0000] "GET /movies/genre/Acti HTTP/1.1" 404 48 "-" "PostmanRuntime/7.32.2"
 ::1 - - [19/Apr/2023:22:13:15 +0000] "GET /movies/genre/Action HTTP/1.1" 200 7889 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:22:30:25 +0000] "GET /movies/directors/Andy%20Muschietti HTTP/1.1" 200 1960 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:22:31:13 +0000] "GET /movies/directors/Andy%20Muschiet HTTP/1.1" 404 59 "-" "PostmanRuntime/7.32.2"

@@ -70,12 +70,21 @@ app.get('/movies/genre/:Genre', (req, res) => {
 		});
 });
 
-app.get('/movies/directors/:directorName', (req, res) => {
-	// Add logic to search for director in database and then return it if exists
-	// Return data about a director (bio, birth year, death year) by name
+// Get movies by director name
 
-	// Add error handling logic
-	res.send('Successful GET request returning info about found Director by name');
+app.get('/movies/directors/:Director', (req, res) => {
+	Movies.find({ 'Director.Name': req.params.Director })
+		.then((movies) => {
+			if (movies.length == 0) {
+				return res.status(404).send('Error: no movies found with the director ' + req.params.Director + ' name');
+			} else {
+				res.status(200).json(movies);
+			}
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error: ' + err);
+		});
 });
 
 // Get all users
