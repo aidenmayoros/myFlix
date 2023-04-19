@@ -5,7 +5,7 @@ const express = require('express'),
 	bodyParser = require('body-parser'),
 	uuid = require('uuid');
 const mongoose = require('mongoose');
-const Models = require('./scripts/models');
+const Models = require('./models');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -27,16 +27,31 @@ app.get('/', (req, res) => {
 	res.send('This is the default route endpoint');
 });
 
+// Get all movies
 app.get('/movies', (req, res) => {
-	// Add error handling logic
-	res.send('Successful GET request returning data on all the movies');
+	Movies.find()
+		.then((movies) => {
+			res.status(201).json(movies);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error: ' + err);
+		});
 });
 
-app.get('/movies/:title', (req, res) => {
-	// Add error handling logic
-
-	// Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
-	res.send('Successful GET request returning a movie by title or name');
+// Get movie by title
+app.get('/movies/:Title', (req, res) => {
+	Movies.findOne({ Title: req.params.Title })
+		.then((movie) => {
+			if (!movie) {
+				return res.status(400).send('Error: ' + req.params.Title + ' was not found');
+			}
+			res.status(201).json(movie);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error: ' + err);
+		});
 });
 
 app.get('/movies/genre/:genreName', (req, res) => {
@@ -176,7 +191,7 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 // Delete a user by username
-app.delete('/users/:name', (req, res) => {
+app.delete('/users/:Username', (req, res) => {
 	Users.findOneAndRemove({ Username: req.params.Username })
 		.then((user) => {
 			if (!user) {

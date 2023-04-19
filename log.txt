@@ -113,3 +113,8 @@
 ::1 - - [19/Apr/2023:19:34:27 +0000] "POST /users/test321/movies/643d898d47eae3eae90429d7 HTTP/1.1" 400 25 "-" "PostmanRuntime/7.32.2"
 ::1 - - [19/Apr/2023:19:34:55 +0000] "POST /users/JacobBlackburn/movies/643d898d47eae3eae90429d7 HTTP/1.1" 200 211 "-" "PostmanRuntime/7.32.2"
 ::1 - - [19/Apr/2023:19:35:01 +0000] "POST /users/JacobBlackburn/movies/643da969277732ccdae7e80c HTTP/1.1" 200 238 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:20:01:02 +0000] "GET /movies HTTP/1.1" 201 11532 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:20:11:09 +0000] "GET /movies/:Title HTTP/1.1" 201 4 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:20:12:51 +0000] "GET /movies/:Title HTTP/1.1" 400 29 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:20:15:21 +0000] "GET /movies/:Title HTTP/1.1" 400 27 "-" "PostmanRuntime/7.32.2"
+::1 - - [19/Apr/2023:20:16:37 +0000] "GET /movies/The%20Dark%20Knight HTTP/1.1" 201 907 "-" "PostmanRuntime/7.32.2"
