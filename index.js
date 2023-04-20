@@ -86,6 +86,22 @@ app.get('/movies/directors/:Director', (req, res) => {
 		});
 });
 
+// Get data about a director by name
+app.get('/movies/director_description/:Director', (req, res) => {
+	Movies.findOne({ 'Director.Name': req.params.Director })
+		.then((movie) => {
+			if (!movie) {
+				return res.status(404).send('Error: ' + req.params.Director + ' was not found');
+			} else {
+				res.status(200).json(movie.Director);
+			}
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error: ' + err);
+		});
+});
+
 // Get data about a genre by genre name
 app.get('/movies/genre_description/:Genre', (req, res) => {
 	Movies.findOne({ 'Genre.Name': req.params.Genre })
@@ -93,7 +109,7 @@ app.get('/movies/genre_description/:Genre', (req, res) => {
 			if (!movie) {
 				return res.status(404).send('Error: ' + req.params.Genre + ' was not found');
 			} else {
-				res.status(500).json(movie.Genre.Description);
+				res.status(200).json(movie.Genre.Description);
 			}
 		})
 		.catch((err) => {
