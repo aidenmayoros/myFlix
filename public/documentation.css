@@ -28,7 +28,11 @@ ul {
 	min-width: 350px;
 }
 
+pre {
+	white-space: pre-wrap;
+	max-width: 500px;
+}
+
 code {
-	overflow: scroll;
-	height: 200px;
+	height: 250px;
 }
