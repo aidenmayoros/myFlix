@@ -60,9 +60,8 @@ app.get('/movies/genre/:Genre', (req, res) => {
 		.then((movies) => {
 			if (movies.length == 0) {
 				return res.status(404).send('Error: no movies found with the ' + req.params.Genre + ' genre type.');
-			} else {
-				res.status(200).json(movies);
 			}
+			res.status(200).json(movies);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -76,9 +75,8 @@ app.get('/movies/directors/:Director', (req, res) => {
 		.then((movies) => {
 			if (movies.length == 0) {
 				return res.status(404).send('Error: no movies found with the director ' + req.params.Director + ' name');
-			} else {
-				res.status(200).json(movies);
 			}
+			res.status(200).json(movies);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -92,9 +90,8 @@ app.get('/movies/director_description/:Director', (req, res) => {
 		.then((movie) => {
 			if (!movie) {
 				return res.status(404).send('Error: ' + req.params.Director + ' was not found');
-			} else {
-				res.status(200).json(movie.Director);
 			}
+			res.status(200).json(movie.Director);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -108,9 +105,8 @@ app.get('/movies/genre_description/:Genre', (req, res) => {
 		.then((movie) => {
 			if (!movie) {
 				return res.status(404).send('Error: ' + req.params.Genre + ' was not found');
-			} else {
-				res.status(200).json(movie.Genre.Description);
 			}
+			res.status(200).json(movie.Genre.Description);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -136,9 +132,8 @@ app.get('/users/:Username', (req, res) => {
 		.then((user) => {
 			if (!user) {
 				return res.status(404).send('Error: ' + req.params.Username + ' was not found');
-			} else {
-				res.json(user);
 			}
+			res.json(user);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -152,21 +147,20 @@ app.post('/users', (req, res) => {
 		.then((user) => {
 			if (user) {
 				return res.status(400).send(req.body.Username + ' already exists');
-			} else {
-				Users.create({
-					Username: req.body.Username,
-					Password: req.body.Password,
-					Email: req.body.Email,
-					Birthday: req.body.Birthday,
-				})
-					.then((user) => {
-						res.status(201).json(user);
-					})
-					.catch((error) => {
-						console.error(error);
-						res.status(500).send('Error: ' + error);
-					});
 			}
+			Users.create({
+				Username: req.body.Username,
+				Password: req.body.Password,
+				Email: req.body.Email,
+				Birthday: req.body.Birthday,
+			})
+				.then((user) => {
+					res.status(201).json(user);
+				})
+				.catch((error) => {
+					console.error(error);
+					res.status(500).send('Error: ' + error);
+				});
 		})
 		.catch((error) => {
 			console.error(error);
@@ -186,9 +180,8 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 		.then((updatedUser) => {
 			if (!updatedUser) {
 				return res.status(404).send('Error: User was not found');
-			} else {
-				res.json(updatedUser);
 			}
+			res.json(updatedUser);
 		})
 		.catch((error) => {
 			console.error(error);
@@ -213,9 +206,8 @@ app.put('/users/:Username', (req, res) => {
 		.then((user) => {
 			if (!user) {
 				return res.status(404).send('Error: No user was found');
-			} else {
-				res.json(user);
 			}
+			res.json(user);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -235,9 +227,8 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 		.then((updatedUser) => {
 			if (!updatedUser) {
 				return res.status(404).send('Error: User not found');
-			} else {
-				res.json(updatedUser);
 			}
+			res.json(updatedUser);
 		})
 		.catch((error) => {
 			console.error(error);
@@ -251,9 +242,8 @@ app.delete('/users/:Username', (req, res) => {
 		.then((user) => {
 			if (!user) {
 				res.status(404).send('User ' + req.params.Username + ' was not found');
-			} else {
-				res.status(200).send(req.params.Username + ' was deleted.');
 			}
+			res.status(200).send(req.params.Username + ' was deleted.');
 		})
 		.catch((err) => {
 			console.error(err);
