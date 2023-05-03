@@ -16,7 +16,14 @@ const { check, validationResult } = require('express-validator');
 
 const bcrypt = require('bcrypt');
 
-mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
+// connect to localhost for testing
+// mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Connect to Mongo Atlas Database
+mongoose.connect(process.env.CONNECTION_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 
 const app = express();
 
