@@ -178,7 +178,6 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 // Create a new user
 app.post(
 	'/users',
-	passport.authenticate('jwt', { session: false }),
 	[
 		check('Username', 'Username must be at least 5 characters in length').isLength({ min: 5 }),
 		check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
@@ -193,6 +192,7 @@ app.post(
 		}
 
 		let hashedPassword = Users.hashPassword(req.body.Password);
+
 		// Search to see if a user with the requested username already exists
 		Users.findOne({ Username: req.body.Username })
 			.then((user) => {
