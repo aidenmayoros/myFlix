@@ -20,7 +20,7 @@ const bcrypt = require('bcrypt');
 // mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Connect to Mongo Atlas Database
-mongoose.connect('mongodb+srv://aidenmayoros:MLjeNGlQaR3e4HDq@cluster0.pig01bx.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(process.env.CONNECTION_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
