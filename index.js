@@ -1,23 +1,7 @@
-const express = require('express'),
-	morgan = require('morgan'),
-	fs = require('fs'),
-	path = require('path'),
-	bodyParser = require('body-parser'),
-	uuid = require('uuid');
-
 const mongoose = require('mongoose');
 const Models = require('./models');
-
 const Movies = Models.Movie;
 const Users = Models.User;
-
-// Server side validation library
-const { check, validationResult } = require('express-validator');
-
-const bcrypt = require('bcrypt');
-
-// connect to localhost for testing
-// mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Connect to Mongo Atlas Database
 mongoose.connect(process.env.CONNECTION_URI, {
@@ -25,14 +9,28 @@ mongoose.connect(process.env.CONNECTION_URI, {
 	useUnifiedTopology: true,
 });
 
+const uuid = require('uuid');
+const express = require('express');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Server side validation library
+const { check, validationResult } = require('express-validator');
+
+// connect to localhost for testing
+// mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Set which http oragins are allowed to access API
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = [
+	'http://localhost:8080',
+	'http://testsite.com',
+	'https://aidens-myflix-api.herokuapp.com/',
+	'https://git.heroku.com/aidens-myflix-api.git',
+];
 app.use(
 	cors({
 		origin: (origin, callback) => {
@@ -47,16 +45,21 @@ app.use(
 	})
 );
 
+// Log URL request data to log.txt text file
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
+
+// middleware
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('combined', { stream: accessLogStream }));
+
+// import and set up passport.js and auth.js
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-// Log URL request data to log.txt text file
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
-
-app.use(express.static('public'));
-
+// Default endpoint
 app.get('/', (req, res) => {
 	res.send('This is the default route endpoint');
 });
@@ -187,16 +190,14 @@ app.post(
 	(req, res) => {
 		// check the validation object for errors
 		let errors = validationResult(req);
+
 		if (!errors.isEmpty()) {
 			return res.status(422).json({ errors: errors.array() });
 		}
 
 		let hashedPassword = Users.hashPassword(req.body.Password);
-
-		// Search to see if a user with the requested username already exists
 		Users.findOne({ Username: req.body.Username })
 			.then((user) => {
-				//If the user is found, send a response that it already exists
 				if (user) {
 					return res.status(400).send(req.body.Username + ' already exists');
 				}
