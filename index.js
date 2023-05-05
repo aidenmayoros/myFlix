@@ -243,26 +243,24 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 		});
 });
 
-// Update a users data by username
+//update user info
+
 app.put(
 	'/users/:Username',
-	passport.authenticate(
-		'jwt',
-		[
-			check('Username', 'Username must be at least 5 characters in length').isLength({ min: 5 }),
-			check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-			check('Password', 'Password is empty').not().isEmpty(),
-			check('Email', 'Email does not appear to be valid').isEmail(),
-		],
-		{ session: false }
-	),
+	passport.authenticate('jwt', { session: false }),
+	[
+		check('Username', 'Username is required').isLength({ min: 4 }),
+		check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+		check('Password', 'Password is required').not().isEmpty(),
+		check('Email', 'Email does not appear to be valid').isEmail(),
+	],
 	(req, res) => {
 		// check the validation object for errors
 		let errors = validationResult(req);
+
 		if (!errors.isEmpty()) {
 			return res.status(422).json({ errors: errors.array() });
 		}
-
 		Users.findOneAndUpdate(
 			{ Username: req.params.Username },
 			{
@@ -275,11 +273,8 @@ app.put(
 			},
 			{ new: true }
 		)
-			.then((user) => {
-				if (!user) {
-					return res.status(404).send('Error: No user was found');
-				}
-				res.json(user);
+			.then((updatedUser) => {
+				res.json(updatedUser);
 			})
 			.catch((err) => {
 				console.error(err);
