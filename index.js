@@ -59,11 +59,6 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-// Default endpoint
-app.get('/', (req, res) => {
-	res.send('This is the default route endpoint');
-});
-
 // Get all movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
 	Movies.find()
