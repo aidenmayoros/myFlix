@@ -224,18 +224,29 @@ app.post(
 
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Users.findOneAndUpdate(
-		{ Username: req.params.Username },
-		{
-			$addToSet: { FavoriteMovies: req.params.MovieID },
-		},
-		{ new: true }
-	)
-		.then((updatedUser) => {
-			if (!updatedUser) {
-				return res.status(404).send('Error: User was not found');
+	Movies.findById({ _id: req.params.MovieID })
+		.then((movie) => {
+			if (!movie) {
+				return res.status(404).send('Error: Movie was not found in database');
 			}
-			res.json(updatedUser);
+
+			Users.findOneAndUpdate(
+				{ Username: req.params.Username },
+				{
+					$addToSet: { FavoriteMovies: req.params.MovieID },
+				},
+				{ new: true }
+			)
+				.then((updatedUser) => {
+					if (!updatedUser) {
+						return res.status(404).send('Error: User was not found');
+					}
+					res.json(updatedUser);
+				})
+				.catch((error) => {
+					console.error(error);
+					res.status(500).send('Error: ' + error);
+				});
 		})
 		.catch((error) => {
 			console.error(error);
@@ -244,7 +255,6 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 });
 
 //update user info
-
 app.put(
 	'/users/:Username',
 	passport.authenticate('jwt', { session: false }),
@@ -276,6 +286,9 @@ app.put(
 			{ new: true }
 		)
 			.then((updatedUser) => {
+				if (!updatedUser) {
+					return res.status(404).send('Error: User was not found');
+				}
 				res.json(updatedUser);
 			})
 			.catch((err) => {
