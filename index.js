@@ -9,6 +9,9 @@ mongoose.connect(process.env.CONNECTION_URI, {
 	useUnifiedTopology: true,
 });
 
+// connect to localhost for testing
+// mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
+
 const uuid = require('uuid');
 const express = require('express');
 const morgan = require('morgan');
@@ -20,9 +23,6 @@ const app = express();
 
 // Server side validation library
 const { check, validationResult } = require('express-validator');
-
-// connect to localhost for testing
-// mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Set which http oragins are allowed to access API
 let allowedOrigins = [
@@ -224,23 +224,46 @@ app.post(
 
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Users.findOneAndUpdate(
-		{ Username: req.params.Username },
-		{
-			$addToSet: { FavoriteMovies: req.params.MovieID },
-		},
-		{ new: true }
-	)
-		.then((updatedUser) => {
-			if (!updatedUser) {
-				return res.status(404).send('Error: User was not found');
-			}
-			res.json(updatedUser);
-		})
-		.catch((error) => {
-			console.error(error);
-			res.status(500).send('Error: ' + error);
-		});
+	// Check if movie is in database
+	const isMovieInDatabase = Movies.findById({ _id: req.params.MovieID }).then((movie) => {
+		if (!movie) {
+			res.status(404).end('Error: Movie was not found in our database');
+			return false;
+		}
+	});
+
+	// Check if user already has movie in favorites list
+	const isMovieInFavorites = Users.findOne({ Username: req.params.Username }).then((user) => {
+		if (!user) {
+			res.status(404).end('Error: User was not found');
+			return false;
+		}
+		if (user.FavoriteMovies.includes(req.params.MovieID)) {
+			res.status(409).end('Error: Movie is already in users favorites list');
+			return false;
+		}
+	});
+
+	if (isMovieInDatabase) {
+		return;
+	} else if (isMovieInFavorites) {
+		return;
+	} else {
+		Users.findOneAndUpdate(
+			{ Username: req.params.Username },
+			{
+				$addToSet: { FavoriteMovies: req.params.MovieID },
+			},
+			{ new: true }
+		)
+			.then((updatedUser) => {
+				res.json(updatedUser);
+			})
+			.catch((error) => {
+				console.error(error);
+				res.status(500).send('Error: ' + error);
+			});
+	}
 });
 
 // Update a users data by username
