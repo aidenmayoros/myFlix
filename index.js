@@ -227,14 +227,14 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 	// Check if movie is in database
 	const isMovieInDatabase = Movies.findById({ _id: req.params.MovieID }).then((movie) => {
 		if (!movie) {
-			return false;
+			return true;
 		}
 	});
 
 	// Check if user already has movie in favorites list
 	const isMovieInFavorites = Users.findOne({ Username: req.params.Username }).then((user) => {
 		if (!user || user.FavoriteMovies.includes(req.params.MovieID)) {
-			return false;
+			return true;
 		}
 	});
 
