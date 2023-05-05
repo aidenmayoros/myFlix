@@ -334,13 +334,13 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 		});
 });
 
+// Add a documentation page to load documentation in html file
+app.use('/documentation', express.static(path.join(__dirname, '/public')));
+
 app.use((err, req, res, next) => {
 	console.log(err);
 	console.error(err.stack);
 });
-
-// Add a documentation page to load documentation in html file
-app.use('/documentation', express.static(path.join(__dirname, '/public')));
 
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
