@@ -224,43 +224,23 @@ app.post(
 
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-	// Check if movie is in database
-	const isMovieInDatabase = Movies.findById({ _id: req.params.MovieID }).then((movie) => {
-		if (!movie) {
-			return true;
-		}
-	});
-
-	// Check if user already has movie in favorites list
-	const isMovieInFavorites = Users.findOne({ Username: req.params.Username }).then((user) => {
-		if (!user || user.FavoriteMovies.includes(req.params.MovieID)) {
-			return true;
-		}
-	});
-
-	if (!isMovieInDatabase) {
-		return res.status(404).send('Error: Movie was not found in our database');
-	} else if (!isMovieInFavorites) {
-		return res.status(409).send('Error: Movie is already in users favorites list');
-	} else {
-		Users.findOneAndUpdate(
-			{ Username: req.params.Username },
-			{
-				$addToSet: { FavoriteMovies: req.params.MovieID },
-			},
-			{ new: true }
-		)
-			.then((updatedUser) => {
-				if (!updatedUser) {
-					return res.status(404).send('Error: User was not found');
-				}
-				res.json(updatedUser);
-			})
-			.catch((error) => {
-				console.error(error);
-				res.status(500).send('Error: ' + error);
-			});
-	}
+	Users.findOneAndUpdate(
+		{ Username: req.params.Username },
+		{
+			$addToSet: { FavoriteMovies: req.params.MovieID },
+		},
+		{ new: true }
+	)
+		.then((updatedUser) => {
+			if (!updatedUser) {
+				return res.status(404).send('Error: User was not found');
+			}
+			res.json(updatedUser);
+		})
+		.catch((error) => {
+			console.error(error);
+			res.status(500).send('Error: ' + error);
+		});
 });
 
 // Update a users data by username
