@@ -239,9 +239,9 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 	});
 
 	if (!isMovieInDatabase) {
-		return res.status(404).end('Error: Movie was not found in our database');
+		return res.status(404).send('Error: Movie was not found in our database');
 	} else if (!isMovieInFavorites) {
-		return res.status(409).end('Error: Movie is already in users favorites list');
+		return res.status(409).send('Error: Movie is already in users favorites list');
 	} else {
 		Users.findOneAndUpdate(
 			{ Username: req.params.Username },
