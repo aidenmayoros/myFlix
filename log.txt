@@ -280,3 +280,4 @@
 127.0.0.1 - - [05/May/2023:06:07:21 +0000] "POST /users/newusertest/movies/643dac4e277732ccda27e811 HTTP/1.1" 401 - "-" "PostmanRuntime/7.32.2"
 127.0.0.1 - - [05/May/2023:06:07:29 +0000] "POST /login HTTP/1.1" 400 49 "-" "PostmanRuntime/7.32.2"
 127.0.0.1 - - [05/May/2023:06:08:39 +0000] "POST /users/newusertest/movies/643dac4e277732ccda27e811 HTTP/1.1" 404 - "-" "PostmanRuntime/7.32.2"
+127.0.0.1 - - [04/Jun/2023:04:50:14 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
