@@ -17,6 +17,8 @@ let movieSchema = mongoose.Schema({
 	Featured: Boolean,
 });
 
+let Movie = mongoose.model('Movie', movieSchema);
+
 let userSchema = mongoose.Schema({
 	Username: { type: String, required: true },
 	Password: { type: String, required: true },
@@ -33,7 +35,6 @@ userSchema.methods.validatePassword = function (password) {
 	return bcrypt.compareSync(password, this.Password);
 };
 
-let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
 
 module.exports.Movie = Movie;

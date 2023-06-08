@@ -1,8 +1,9 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
 const Models = require('./models');
 const Movies = Models.Movie;
 const Users = Models.User;
-
 // Connect to Mongo Atlas Database
 mongoose.connect(process.env.CONNECTION_URI, {
 	useNewUrlParser: true,
@@ -183,7 +184,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 // Get a single user
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
 	Users.findOne({ Username: req.params.Username })
-		.populate('Movie')
+		.populate({ path: 'FavoriteMovies' })
 		.then((user) => {
 			if (!user) {
 				return res.status(404).send('Error: ' + req.params.Username + ' was not found');
@@ -219,6 +220,8 @@ app.post(
 		let hashedPassword = Users.hashPassword(req.body.Password);
 		Users.findOne({ Username: req.body.Username })
 			.then((user) => {
+				console.log(user);
+
 				if (user) {
 					return res.status(400).send(req.body.Username + ' already exists');
 				}
