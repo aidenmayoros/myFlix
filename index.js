@@ -183,6 +183,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 // Get a single user
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
 	Users.findOne({ Username: req.params.Username })
+		.populate('Movie')
 		.then((user) => {
 			if (!user) {
 				return res.status(404).send('Error: ' + req.params.Username + ' was not found');
