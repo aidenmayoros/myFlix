@@ -28,6 +28,8 @@ const app = express();
 // Server side validation library
 const { check, validationResult } = require('express-validator');
 
+app.use('/app', express.static(path.join(__dirname, 'client')));
+
 // Set which http oragins are allowed to access API
 let allowedOrigins = [
 	'http://localhost:8080',
@@ -37,6 +39,7 @@ let allowedOrigins = [
 	'https://aidens-myflix-api.herokuapp.com/',
 	'https://git.heroku.com/aidens-myflix-api.git',
 ];
+
 app.use(
 	cors({
 		origin: (origin, callback) => {
