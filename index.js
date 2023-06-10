@@ -28,7 +28,7 @@ const app = express();
 // Server side validation library
 const { check, validationResult } = require('express-validator');
 
-app.use('/app', express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 // Set which http oragins are allowed to access API
 let allowedOrigins = [
@@ -59,7 +59,7 @@ app.use(
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 
 // middleware
-app.use(express.static('public'));
+app.use('/api/docs', express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined', { stream: accessLogStream }));
