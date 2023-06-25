@@ -35,7 +35,6 @@ let allowedOrigins = [
 	'http://localhost:8080',
 	'http://testsite.com',
 	'http://localhost:1234',
-	'http://localhost:1234/',
 	'https://aidens-myflix-api.herokuapp.com',
 	'https://git.heroku.com/aidens-myflix-api.git',
 ];
