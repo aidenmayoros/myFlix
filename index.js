@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 let allowedOrigins = [
 	'http://localhost:8080',
 	'http://localhost:1234',
-	'http://localhost:4200/',
+	'http://localhost:4200',
 	'http://testsite.com',
 	'https://aidens-myflix-api.herokuapp.com',
 	'https://git.heroku.com/aidens-myflix-api.git',
