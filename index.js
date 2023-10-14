@@ -33,8 +33,9 @@ app.use(express.static(path.join(__dirname, 'client')));
 // Set which http oragins are allowed to access API
 let allowedOrigins = [
 	'http://localhost:8080',
-	'http://testsite.com',
 	'http://localhost:1234',
+	'http://localhost:4200/',
+	'http://testsite.com',
 	'https://aidens-myflix-api.herokuapp.com',
 	'https://git.heroku.com/aidens-myflix-api.git',
 ];
@@ -46,7 +47,8 @@ app.use(
 			if (allowedOrigins.indexOf(origin) === -1) {
 				// If a specific origin isn’t found on the list of allowed origins
 				let message =
-					'The CORS policy for this application doesn’t allow access from origin ' + origin;
+					'The CORS policy for this application doesn’t allow access from origin ' +
+					origin;
 				return callback(new Error(message), false);
 			}
 			return callback(null, true);
@@ -55,7 +57,9 @@ app.use(
 );
 
 // Log URL request data to log.txt text file
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {
+	flags: 'a',
+});
 
 // middleware
 app.use('/api/docs', express.static('public'));
@@ -69,16 +73,20 @@ const passport = require('passport');
 require('./passport');
 
 // Get all movies
-app.get('/api/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Movies.find()
-		.then((movies) => {
-			res.status(200).json(movies);
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(500).send('Error: ' + err);
-		});
-});
+app.get(
+	'/api/movies',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Movies.find()
+			.then((movies) => {
+				res.status(200).json(movies);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Get a movie by title
 app.get(
@@ -88,7 +96,9 @@ app.get(
 		Movies.findOne({ Title: req.params.Title })
 			.then((movie) => {
 				if (!movie) {
-					return res.status(404).send('Error: ' + req.params.Title + ' was not found');
+					return res
+						.status(404)
+						.send('Error: ' + req.params.Title + ' was not found');
 				}
 				res.status(200).json(movie);
 			})
@@ -109,7 +119,11 @@ app.get(
 				if (movies.length == 0) {
 					return res
 						.status(404)
-						.send('Error: no movies found with the ' + req.params.Genre + ' genre type.');
+						.send(
+							'Error: no movies found with the ' +
+								req.params.Genre +
+								' genre type.'
+						);
 				}
 				res.status(200).json(movies);
 			})
@@ -130,7 +144,11 @@ app.get(
 				if (movies.length == 0) {
 					return res
 						.status(404)
-						.send('Error: no movies found with the director ' + req.params.Director + ' name');
+						.send(
+							'Error: no movies found with the director ' +
+								req.params.Director +
+								' name'
+						);
 				}
 				res.status(200).json(movies);
 			})
@@ -141,7 +159,7 @@ app.get(
 	}
 );
 
-// Get description about a director
+// Get a director by name
 app.get(
 	'/api/movies/director_description/:Director',
 	passport.authenticate('jwt', { session: false }),
@@ -149,7 +167,9 @@ app.get(
 		Movies.findOne({ 'Director.Name': req.params.Director })
 			.then((movie) => {
 				if (!movie) {
-					return res.status(404).send('Error: ' + req.params.Director + ' was not found');
+					return res
+						.status(404)
+						.send('Error: ' + req.params.Director + ' was not found');
 				}
 				res.status(200).json(movie.Director);
 			})
@@ -168,7 +188,9 @@ app.get(
 		Movies.findOne({ 'Genre.Name': req.params.Genre })
 			.then((movie) => {
 				if (!movie) {
-					return res.status(404).send('Error: ' + req.params.Genre + ' was not found');
+					return res
+						.status(404)
+						.send('Error: ' + req.params.Genre + ' was not found');
 				}
 				res.status(200).json(movie.Genre.Description);
 			})
@@ -180,38 +202,51 @@ app.get(
 );
 
 // Get all users
-app.get('/api/users', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Users.find()
-		.then((users) => {
-			res.status(200).json(users);
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(500).send('Error: ' + err);
-		});
-});
+app.get(
+	'/api/users',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.find()
+			.then((users) => {
+				res.status(200).json(users);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Get a single user
-app.get('/api/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Users.findOne({ Username: req.params.Username })
-		.populate({ path: 'FavoriteMovies' })
-		.then((user) => {
-			if (!user) {
-				return res.status(404).send('Error: ' + req.params.Username + ' was not found');
-			}
-			res.json(user);
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(500).send('Error: ' + err);
-		});
-});
+app.get(
+	'/api/users/:Username',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.findOne({ Username: req.params.Username })
+			.populate({ path: 'FavoriteMovies' })
+			.then((user) => {
+				if (!user) {
+					return res
+						.status(404)
+						.send('Error: ' + req.params.Username + ' was not found');
+				}
+				res.json(user);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Create a new user
 app.post(
 	'/api/users',
 	[
-		check('Username', 'Username must be at least 5 characters in length').isLength({ min: 5 }),
+		check(
+			'Username',
+			'Username must be at least 5 characters in length'
+		).isLength({ min: 5 }),
 		check(
 			'Username',
 			'Username contains non alphanumeric characters - not allowed.'
@@ -365,19 +400,25 @@ app.delete(
 );
 
 // Delete a user
-app.delete('/api/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Users.findOneAndRemove({ Username: req.params.Username })
-		.then((user) => {
-			if (!user) {
-				res.status(404).send('User ' + req.params.Username + ' was not found');
-			}
-			res.status(200).send(req.params.Username + ' was deleted.');
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(500).send('Error: ' + err);
-		});
-});
+app.delete(
+	'/api/users/:Username',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.findOneAndRemove({ Username: req.params.Username })
+			.then((user) => {
+				if (!user) {
+					res
+						.status(404)
+						.send('User ' + req.params.Username + ' was not found');
+				}
+				res.status(200).send(req.params.Username + ' was deleted.');
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Load documentation from html file
 app.use('/documentation', express.static(path.join(__dirname, '/public')));
