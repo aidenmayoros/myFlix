@@ -38,6 +38,7 @@ let allowedOrigins = [
 	'http://testsite.com',
 	'https://aidens-myflix-api.herokuapp.com',
 	'https://git.heroku.com/aidens-myflix-api.git',
+	'https://aidenmayoros.github.io',
 ];
 
 app.use(
