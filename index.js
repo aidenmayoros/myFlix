@@ -73,7 +73,11 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-// Get all movies
+/**
+ * Get all movies for a logged in user
+ * @returns {Array} array of all movies in database
+ */
+
 app.get(
 	'/api/movies',
 	passport.authenticate('jwt', { session: false }),
@@ -89,7 +93,12 @@ app.get(
 	}
 );
 
-// Get a movie by title
+/**
+ * Get movie by title
+ * @param {string} title movie title
+ * @returns {object}
+ */
+
 app.get(
 	'/api/movies/title/:Title',
 	passport.authenticate('jwt', { session: false }),
@@ -111,6 +120,13 @@ app.get(
 );
 
 // Get movies by genre
+
+/**
+ * Get movies by genre
+ * @param {string} genre movie genre
+ * @returns {Array}
+ */
+
 app.get(
 	'/api/movies/genre/:Genre',
 	passport.authenticate('jwt', { session: false }),
@@ -202,7 +218,12 @@ app.get(
 	}
 );
 
-// Get all users
+/**
+ * gets all of the users
+ * @name users
+ * @returns an array of users
+ */
+
 app.get(
 	'/api/users',
 	passport.authenticate('jwt', { session: false }),
@@ -240,10 +261,20 @@ app.get(
 	}
 );
 
-// Create a new user
+/**
+ * Allow new users to register
+ * @name registerUser
+ * @param {string} Username username
+ * @param {string} Password password
+ * @param {string} Email email
+ * @param {date} Birthday birthday
+ * @returns {object} created user
+ */
+
 app.post(
 	'/api/users',
 	[
+		// Validation
 		check(
 			'Username',
 			'Username must be at least 5 characters in length'
