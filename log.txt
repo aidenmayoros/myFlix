@@ -1543,3 +1543,6 @@
 127.0.0.1 - - [10/Jun/2023:21:18:12 +0000] "GET /signup HTTP/1.1" 404 145 "http://localhost:8080/signup" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 127.0.0.1 - - [10/Jun/2023:21:18:16 +0000] "GET /app/signup HTTP/1.1" 404 149 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 127.0.0.1 - - [10/Jun/2023:21:18:25 +0000] "GET /movies HTTP/1.1" 401 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2023:00:52:44 +0000] "GET /index.69fb68fb.css HTTP/1.1" 200 374 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2023:00:52:45 +0000] "GET /favicon.ico HTTP/1.1" 200 374 "http://localhost:8080/login" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2023:00:53:04 +0000] "GET /favicon.ico HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"

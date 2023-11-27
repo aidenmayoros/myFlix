@@ -39,6 +39,7 @@ let allowedOrigins = [
 	'https://aidens-myflix-api.herokuapp.com',
 	'https://git.heroku.com/aidens-myflix-api.git',
 	'https://aidenmayoros.github.io',
+	'http://54.146.195.19',
 ];
 
 app.use(
