@@ -492,6 +492,7 @@ app.use('/documentation', express.static(path.join(__dirname, '/public')));
 // app.get('*', function (req, res) {
 // 	res.sendFile(path.join(__dirname + '/client/index.html'));
 // });
+// mongodb+srv://aidenmayoros:MLjeNGlQaR3e4HDq@cluster0.pig01bx.mongodb.net/myFlixDB?retryWrites=true&w=majority
 
 app.use('*', express.static(path.join(__dirname, '/client')));
 
