@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+span, p {
+  font-size: 24px;
+}
+
+.my-flix {
+  color: #4682b4;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=index.e378193d.css.map */

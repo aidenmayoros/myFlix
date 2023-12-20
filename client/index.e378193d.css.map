@@ -1,0 +1,1 @@
+{"mappings":"AAEA;;;;;AAKA;;;;AAKA;;;;AAIA","sources":["src/styles/index.scss"],"sourcesContent":["$color: steelblue;\n\nbody {\n\tpadding: 0;\n\tmargin: 0;\n}\n\nspan,\np {\n\tfont-size: 24px;\n}\n\n.my-flix {\n\tcolor: $color;\n}\n\na {\n\ttext-decoration: none;\n}\n"],"names":[],"version":3,"file":"index.e378193d.css.map","sourceRoot":"/__parcel_source_root/"}
