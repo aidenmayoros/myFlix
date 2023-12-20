@@ -489,9 +489,11 @@ app.delete(
 // Load documentation from html file
 app.use('/documentation', express.static(path.join(__dirname, '/public')));
 
-app.get('*', function (req, res) {
-	res.sendFile(path.join(__dirname + '/client/index.html'));
-});
+// app.get('*', function (req, res) {
+// 	res.sendFile(path.join(__dirname + '/client/index.html'));
+// });
+
+app.use('*', express.static(path.join(__dirname, '/client')));
 
 app.use((err, req, res, next) => {
 	console.log(err);
