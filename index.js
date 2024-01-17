@@ -20,10 +20,18 @@ const uuid = require('uuid');
 const express = require('express');
 const morgan = require('morgan');
 const fs = require('fs');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
+
+// AWS imports
+const {
+	S3Client,
+	ListObjectsV2Command,
+	PutObjectCommand,
+} = require('@aws-sdk/client-s3');
 
 // Server side validation library
 const { check, validationResult } = require('express-validator');
@@ -73,6 +81,31 @@ app.use(morgan('combined', { stream: accessLogStream }));
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
+
+// Using AWS S3 with LocalStack
+const s3Client = new S3Client({
+	region: 'us-east-1',
+	endpoint: 'http://localhost:4566',
+	forcePathStyle: true,
+});
+
+// const listObjectsParams = {
+// 	Bucket: 'my-cool-local-bucket',
+// };
+
+// listObjectsCmd = new ListObjectsV2Command(listObjectsParams);
+// s3Client.send(listObjectsCmd);
+
+app.get('/images', (req, res) => {
+	listObjectsParams = {
+		Bucket: 'my-cool-local-bucket',
+	};
+	s3Client
+		.send(new ListObjectsV2Command(listObjectsParams))
+		.then((listObjectsResponse) => {
+			res.send(listObjectsResponse);
+		});
+});
 
 /**
  * Get all movies for a logged in user
