@@ -96,6 +96,7 @@ const s3Client = new S3Client({
 // listObjectsCmd = new ListObjectsV2Command(listObjectsParams);
 // s3Client.send(listObjectsCmd);
 
+// AWS return all images in bucket
 app.get('/images', (req, res) => {
 	listObjectsParams = {
 		Bucket: 'my-cool-local-bucket',
@@ -104,6 +105,26 @@ app.get('/images', (req, res) => {
 		.send(new ListObjectsV2Command(listObjectsParams))
 		.then((listObjectsResponse) => {
 			res.send(listObjectsResponse);
+		});
+});
+
+// AWS upload img file to bucket
+app.post('/upload', (req, res) => {
+	console.log(req);
+	const uploadParams = {
+		Bucket: req.body.Bucket,
+		Key: req.body.Key,
+		Body: fs.createReadStream(req.body.Body),
+		ContentType: 'image/jpg',
+	};
+	s3Client
+		.send(new PutObjectCommand(uploadParams))
+		.then((uploadResponse) => {
+			res.send(uploadResponse);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error uploading image');
 		});
 });
 
