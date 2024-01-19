@@ -24,7 +24,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const app = express();
+const multer = require('multer');
 
 // AWS imports
 const {
@@ -35,6 +35,8 @@ const {
 
 // Server side validation library
 const { check, validationResult } = require('express-validator');
+
+const app = express();
 
 app.use(express.static(path.join(__dirname, 'client')));
 
@@ -82,24 +84,20 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-// Using AWS S3 with LocalStack
+// Set up AWS S3 client
 const s3Client = new S3Client({
-	region: 'us-east-1',
+	region: 'us-east-1', // Replace with your AWS region
 	endpoint: 'http://localhost:4566',
 	forcePathStyle: true,
 });
-
-// const listObjectsParams = {
-// 	Bucket: 'my-cool-local-bucket',
-// };
-
-// listObjectsCmd = new ListObjectsV2Command(listObjectsParams);
-// s3Client.send(listObjectsCmd);
+const bucketName = 'my-cool-local-bucket';
+const storage = multer.memoryStorage(); // Store the file in memory
+const upload = multer({ storage });
 
 // AWS return all images in bucket
 app.get('/images', (req, res) => {
 	listObjectsParams = {
-		Bucket: 'my-cool-local-bucket',
+		Bucket: bucketName,
 	};
 	s3Client
 		.send(new ListObjectsV2Command(listObjectsParams))
@@ -108,24 +106,61 @@ app.get('/images', (req, res) => {
 		});
 });
 
-// AWS upload img file to bucket
-app.post('/upload', (req, res) => {
-	const uploadParams = {
-		Bucket: req.body.Bucket,
-		Key: req.body.Key,
-		Body: fs.createReadStream(req.body.Body),
-		ContentType: 'image/jpg',
-	};
-	s3Client
-		.send(new PutObjectCommand(uploadParams))
-		.then((uploadResponse) => {
-			res.send(uploadResponse);
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(500).send('Error uploading image');
-		});
+// Endpoint to handle image upload
+app.post('/upload', upload.single('image'), async (req, res) => {
+	try {
+		const { originalname, buffer } = req.file;
+
+		// Specify the S3 bucket and key (object key) for the image
+		const objectKey = originalname; // Use the original file name
+
+		// Prepare the parameters for the S3 PUT operation
+		const params = {
+			Bucket: bucketName,
+			Key: objectKey,
+			Body: buffer,
+		};
+
+		// Upload the image to the S3 bucket
+		await s3Client.send(new PutObjectCommand(params));
+
+		res.status(200).json({ message: 'Image uploaded successfully' });
+	} catch (error) {
+		console.error('Error uploading image:', error);
+		res.status(500).json({ error: 'Image upload failed' });
+	}
 });
+
+// app.post('/files', upload.single('file'), async (req, res) => {
+// 	if (!req.file) {
+// 		return res.status(400).json({ error: 'No file was chosen for upload' });
+// 	}
+
+// 	const file = req.file;
+
+// 	//debugging catches just in case
+// 	console.log(file);
+// 	console.log(file.path);
+// });
+
+// OLD
+// app.post('/upload', (req, res) => {
+// 	const uploadParams = {
+// 		Bucket: req.body.Bucket,
+// 		Key: req.body.Key,
+// 		Body: fs.createReadStream(req.body.Body),
+// 		ContentType: 'image/jpg',
+// 	};
+// 	s3Client
+// 		.send(new PutObjectCommand(uploadParams))
+// 		.then((uploadResponse) => {
+// 			res.send(uploadResponse);
+// 		})
+// 		.catch((err) => {
+// 			console.error(err);
+// 			res.status(500).send('Error uploading image');
+// 		});
+// });
 
 /**
  * Get all movies for a logged in user
