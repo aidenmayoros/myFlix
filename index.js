@@ -143,25 +143,6 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 // 	console.log(file.path);
 // });
 
-// OLD
-// app.post('/upload', (req, res) => {
-// 	const uploadParams = {
-// 		Bucket: req.body.Bucket,
-// 		Key: req.body.Key,
-// 		Body: fs.createReadStream(req.body.Body),
-// 		ContentType: 'image/jpg',
-// 	};
-// 	s3Client
-// 		.send(new PutObjectCommand(uploadParams))
-// 		.then((uploadResponse) => {
-// 			res.send(uploadResponse);
-// 		})
-// 		.catch((err) => {
-// 			console.error(err);
-// 			res.status(500).send('Error uploading image');
-// 		});
-// });
-
 /**
  * Get all movies for a logged in user
  * @returns {Array} array of all movies in database
