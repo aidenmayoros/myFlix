@@ -110,7 +110,6 @@ app.get('/images', (req, res) => {
 
 // AWS upload img file to bucket
 app.post('/upload', (req, res) => {
-	console.log(req);
 	const uploadParams = {
 		Bucket: req.body.Bucket,
 		Key: req.body.Key,
