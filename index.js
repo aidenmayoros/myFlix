@@ -31,6 +31,7 @@ const {
 	S3Client,
 	ListObjectsV2Command,
 	PutObjectCommand,
+	GetObjectCommand,
 } = require('@aws-sdk/client-s3');
 
 // Server side validation library
