@@ -132,6 +132,33 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 	}
 });
 
+// Endpoint to retrieve an image from a bucket
+app.get('/view-image/:key', async (req, res) => {
+	try {
+		const { key } = req.params;
+
+		// Prepare the parameters for the S3 GET operation
+		const params = {
+			Bucket: bucketName,
+			Key: key,
+		};
+
+		// Retrieve the image from S3
+		const { Body, ContentType } = await s3Client.send(
+			new GetObjectCommand(params)
+		);
+
+		// Set the appropriate headers for image response
+		res.setHeader('Content-Type', ContentType);
+
+		// Pipe the image data directly to the response
+		Body.pipe(res);
+	} catch (error) {
+		console.error('Error viewing image:', error);
+		res.status(500).send('Failed to view image from S3');
+	}
+});
+
 /**
  * Get all movies for a logged in user
  * @returns {Array} array of all movies in database
