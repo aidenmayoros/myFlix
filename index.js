@@ -87,7 +87,7 @@ require('./passport');
 // Set up AWS S3 client
 const s3Client = new S3Client({
 	region: 'us-east-1', // Replace with your AWS region
-	endpoint: 'http://localhost:4566',
+	// endpoint: 'http://localhost:4566', // Endpoint used for local testing
 	forcePathStyle: true,
 });
 const bucketName = 'my-cool-local-bucket';
@@ -108,16 +108,17 @@ app.get('/images', (req, res) => {
 
 // Endpoint to handle image upload
 app.post('/upload', upload.single('image'), async (req, res) => {
+	if (!req.file) {
+		return res.status(400).json({ error: 'No file was chosen for upload' });
+	}
+
 	try {
 		const { originalname, buffer } = req.file;
-
-		// Specify the S3 bucket and key (object key) for the image
-		const objectKey = originalname; // Use the original file name
 
 		// Prepare the parameters for the S3 PUT operation
 		const params = {
 			Bucket: bucketName,
-			Key: objectKey,
+			Key: originalname,
 			Body: buffer,
 		};
 
@@ -130,18 +131,6 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 		res.status(500).json({ error: 'Image upload failed' });
 	}
 });
-
-// app.post('/files', upload.single('file'), async (req, res) => {
-// 	if (!req.file) {
-// 		return res.status(400).json({ error: 'No file was chosen for upload' });
-// 	}
-
-// 	const file = req.file;
-
-// 	//debugging catches just in case
-// 	console.log(file);
-// 	console.log(file.path);
-// });
 
 /**
  * Get all movies for a logged in user
