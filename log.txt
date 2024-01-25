@@ -1623,3 +1623,6 @@
 ::1 - - [20/Jan/2024:03:52:25 +0000] "GET /login502%20bad%20gateway%20nginx HTTP/1.1" 301 231 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 ::1 - - [20/Jan/2024:03:52:25 +0000] "GET /login502%20bad%20gateway%20nginx/ HTTP/1.1" 200 376 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 ::1 - - [20/Jan/2024:03:52:25 +0000] "GET /favicon.ico/ HTTP/1.1" 304 - "http://localhost:8080/login" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+::1 - - [20/Jan/2024:18:10:14 +0000] "GET /images HTTP/1.1" 200 309 "-" "PostmanRuntime/7.32.3"
+::1 - - [25/Jan/2024:00:23:24 +0000] "GET /favicon.ico HTTP/1.1" 301 189 "http://localhost:8080/login" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+::1 - - [25/Jan/2024:00:23:24 +0000] "GET /favicon.ico/ HTTP/1.1" 200 376 "http://localhost:8080/login" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"

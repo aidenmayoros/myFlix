@@ -88,7 +88,7 @@ require('./passport');
 // Set up AWS S3 client
 const s3Client = new S3Client({
 	region: 'us-east-1', // Replace with your AWS region
-	// endpoint: 'http://localhost:4566', // Endpoint used for local testing
+	endpoint: 'http://localhost:4566', // Endpoint used for local testing
 	forcePathStyle: true,
 });
 const bucketName = 'my-cool-local-bucket';
@@ -103,6 +103,9 @@ app.get('/images', (req, res) => {
 	s3Client
 		.send(new ListObjectsV2Command(listObjectsParams))
 		.then((listObjectsResponse) => {
+			// log for testing
+			console.log(res);
+
 			res.send(listObjectsResponse);
 		});
 });
@@ -125,6 +128,9 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
 		// Upload the image to the S3 bucket
 		await s3Client.send(new PutObjectCommand(params));
+
+		// log for testing
+		console.log(res);
 
 		res.status(200).json({ message: 'Image uploaded successfully' });
 	} catch (error) {
@@ -151,6 +157,9 @@ app.get('/view-image/:key', async (req, res) => {
 
 		// Set the appropriate headers for image response
 		res.setHeader('Content-Type', ContentType);
+
+		// log for testing
+		console.log(res);
 
 		// Pipe the image data directly to the response
 		Body.pipe(res);
