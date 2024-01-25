@@ -104,7 +104,8 @@ app.get('/images', (req, res) => {
 		.send(new ListObjectsV2Command(listObjectsParams))
 		.then((listObjectsResponse) => {
 			// log for testing
-			console.log(res);
+			console.log('All images from S3');
+			console.log(listObjectsResponse);
 
 			res.send(listObjectsResponse);
 		});
@@ -156,7 +157,7 @@ app.get('/view-image/:key', async (req, res) => {
 		);
 
 		// Set the appropriate headers for image response
-		res.setHeader('Content-Type', ContentType);
+		res.setHeader('Content-Type', 'image/png');
 
 		// log for testing
 		console.log(res);
