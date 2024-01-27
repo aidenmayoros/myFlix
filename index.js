@@ -88,10 +88,14 @@ require('./passport');
 // Set up AWS S3 client
 const s3Client = new S3Client({
 	region: 'us-east-1', // Replace with your AWS region
-	endpoint: 'http://localhost:4566', // Endpoint used for local testing
+	credentials: {
+		accessKeyId: process.env.ACCESS_KEY, // Replace with your AWS Access Key ID
+		secretAccessKey: process.env.SECRET_ACCESS_KEY, // Replace with your AWS Secret Access Key
+	},
+	// endpoint: 'http://localhost:4566', // Endpoint used for local testing
 	forcePathStyle: true,
 });
-const bucketName = 'my-cool-local-bucket';
+const bucketName = 'cf-achievement-2';
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage });
 
