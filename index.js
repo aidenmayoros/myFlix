@@ -51,7 +51,7 @@ let allowedOrigins = [
 	'https://git.heroku.com/aidens-myflix-api.git',
 	'https://aidenmayoros.github.io',
 	'http://54.146.195.19',
-	'http://CF-Load-Balancer-1591128586.us-east-1.elb.amazonaws.com',
+	'http://Final-task-ALB-1198336038.us-east-1.elb.amazonaws.com',
 ];
 
 app.use(
